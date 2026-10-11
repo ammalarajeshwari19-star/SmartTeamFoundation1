@@ -1,0 +1,26 @@
+{
+  "name": "smartteamfoundation",
+  "version": "1.0.0",
+  "description": "SmartTeamFoundation — AI-Powered Smart Project Team Formation and Skill Matching System",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "seed": "npm --prefix backend run seed",
+    "test": "npm --prefix backend run test",
+    "build": "npm --prefix frontend run build",
+    "server": "npm --prefix backend run dev",
+    "client": "npm --prefix frontend run dev",
+    "dev": "node scripts/dev.js",
+    "start": "node backend/src/server.js"
+  },
+  "keywords": [
+    "skill-matching",
+    "team-formation",
+    "ai-matching",
+    "react",
+    "node",
+    "express"
+  ],
+  "author": "SmartTeamFoundation Team",
+  "license": "MIT"
+}
