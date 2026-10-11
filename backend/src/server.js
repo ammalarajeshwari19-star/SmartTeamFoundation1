@@ -49,6 +49,25 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+let isDbReady = false;
+async function ensureDbReady() {
+  if (!isDbReady) {
+    await initializeDatabase();
+    await seedDatabase();
+    isDbReady = true;
+  }
+}
+
+// Auto-initialize DB on first request if not already started
+app.use(async (req, res, next) => {
+  try {
+    await ensureDbReady();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Mount modular API routers
 app.use('/api/auth', authRoutes);
 app.use('/api/profiles', profileRoutes);
@@ -67,8 +86,7 @@ app.use(errorHandler);
 // Initialize DB and start server
 async function startServer() {
   try {
-    await initializeDatabase();
-    await seedDatabase();
+    await ensureDbReady();
 
     const server = app.listen(PORT, () => {
       console.log(`\n======================================================`);

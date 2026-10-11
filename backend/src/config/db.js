@@ -28,8 +28,8 @@ if (dbClient === 'mysql') {
   console.log('[DB] Using MySQL connection pool on', process.env.DB_HOST || 'localhost');
 } else {
   // SQLite default
-  const dbRelPath = process.env.SQLITE_DB_PATH || './data/smartteam.sqlite';
-  const fullPath = path.resolve(__dirname, '..', '..', dbRelPath);
+  const dbRelPath = process.env.SQLITE_DB_PATH || (process.env.VERCEL ? '/tmp/smartteam.sqlite' : './data/smartteam.sqlite');
+  const fullPath = path.isAbsolute(dbRelPath) ? dbRelPath : path.resolve(__dirname, '..', '..', dbRelPath);
   const dbDir = path.dirname(fullPath);
   if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });

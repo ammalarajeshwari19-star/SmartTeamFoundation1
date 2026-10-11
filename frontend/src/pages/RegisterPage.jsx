@@ -43,7 +43,13 @@ export default function RegisterPage() {
       await register(formData);
       navigate('/profile/edit'); // Direct to profile & skill setup
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Registration failed.');
+      if (err.response?.status === 404) {
+        setError('Backend API not reached (404 Not Found). The frontend cannot communicate with the backend server. Please ensure the backend is deployed (e.g. on Render) and VITE_API_URL is configured in your Vercel project environment variables.');
+      } else if (!err.response && err.message?.includes('Network Error')) {
+        setError('Network error: Unable to connect to backend server. Please verify backend is running and CORS is enabled.');
+      } else {
+        setError(err.response?.data?.message || err.message || 'Registration failed.');
+      }
     } finally {
       setSubmitting(false);
     }
